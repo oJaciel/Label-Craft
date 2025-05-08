@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-class NewLabelButton extends StatelessWidget {
-  const NewLabelButton(this.text, this.route, {super.key});
+class AppButton extends StatelessWidget {
+  const AppButton(this.text, this.route, this.icon, {super.key});
 
   final String text;
   final String route;
+  final Icon icon;
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +16,8 @@ class NewLabelButton extends StatelessWidget {
         onPressed: () {
           Navigator.of(context).pushNamed(route);
         },
-        label: Text('Adicionar nova etiqueta'),
-        icon: Icon(Icons.add),
+        label: Text(text),
+        icon: icon ,
       ),
     );
   }

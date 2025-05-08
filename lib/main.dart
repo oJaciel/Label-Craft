@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:label_craft/pages/home_page.dart';
 import 'package:label_craft/pages/label_form_page.dart';
+import 'package:label_craft/pages/label_list_page.dart';
 import 'package:label_craft/utils/app_routes.dart';
 
 void main() {
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         AppRoutes.HOME: (ctx) => HomePage(),
+        AppRoutes.LABEL_LIST: (ctx) => LabelListPage(),
         AppRoutes.LABEL_FORM: (ctx) => LabelFormPage(),
       }
 

@@ -18,6 +18,14 @@ class AppDrawer extends StatelessWidget {
               Navigator.of(context).pushReplacementNamed(AppRoutes.HOME);
             },
           ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.create),
+            title: Text('Gerenciar Etiquetas'),
+            onTap: () {
+              Navigator.of(context).pushReplacementNamed(AppRoutes.LABEL_LIST);
+            },
+          ),
         ],
       ),
     );
