@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:label_craft/components/label_preview.dart';
 import 'package:label_craft/models/label.dart';
 
 class LabelFormPage extends StatefulWidget {
@@ -21,7 +22,10 @@ class _LabelFormPageState extends State<LabelFormPage> {
   bool _hasExpDate = false;
 
   // Modelos disponíveis
-  final List<String> _labelModels = ['Modelo A', 'Modelo B']; // futuro: modelos reais
+  final List<String> _labelModels = [
+    'Modelo A',
+    'Modelo B',
+  ]; // futuro: modelos reais
   String _selectedModel = 'Modelo A';
 
   @override
@@ -55,29 +59,20 @@ class _LabelFormPageState extends State<LabelFormPage> {
                       setState(() => _selectedModel = value);
                     }
                   },
-                  items: _labelModels.map((model) {
-                    return DropdownMenuItem<String>(
-                      value: model,
-                      child: Text(model),
-                    );
-                  }).toList(),
+                  items:
+                      _labelModels.map((model) {
+                        return DropdownMenuItem<String>(
+                          value: model,
+                          child: Text(model),
+                        );
+                      }).toList(),
                 ),
               ],
             ),
 
             SizedBox(height: 10),
 
-            // Visualização da etiqueta
-            Container(
-              width: double.infinity,
-              height: 180,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black),
-                color: Colors.white,
-              ),
-              padding: const EdgeInsets.all(12),
-              child: _buildLabelPreview(labelPreview),
-            ),
+            LabelPreview(labelPreview),
 
             const SizedBox(height: 20),
 
@@ -135,19 +130,6 @@ class _LabelFormPageState extends State<LabelFormPage> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildLabelPreview(Label label) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Nome: ${label.name}', style: TextStyle(fontSize: 16)),
-        if (label.hasWeight) Text('Peso: ${label.weight ?? '____'}'),
-        if (label.hasPrice) Text('Preço: R\$ ${label.price ?? '____'}'),
-        if (label.hasFab) Text('Fab: __/__/2025'),
-        if (label.hasExpDate) Text('Val: 02 meses'),
-      ],
     );
   }
 }
