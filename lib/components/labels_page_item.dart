@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:label_craft/models/label.dart';
+import 'package:label_craft/models/label_provider.dart';
+import 'package:provider/provider.dart';
 
 class LabelsPageItem extends StatelessWidget {
   const LabelsPageItem(this.label, {super.key});
@@ -32,7 +34,11 @@ class LabelsPageItem extends StatelessWidget {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.of(ctx).pop(true);
+                              Provider.of<LabelProvider>(
+                                context,
+                                listen: false,
+                              ).removeLabel(label);
+                              Navigator.of(context).pop(true);
                             },
                             child: Text(
                               'Sim',
