@@ -1,14 +1,12 @@
 import 'dart:convert';
 import 'dart:math';
-
 import 'package:flutter/widgets.dart';
-import 'package:label_craft/data/mock_labels.dart';
 import 'package:label_craft/models/label.dart';
 import 'package:http/http.dart' as http;
 import 'package:label_craft/utils/constants.dart';
 
 class LabelProvider with ChangeNotifier {
-  List<Label> _labels = mockLabels;
+  List<Label> _labels = [];
 
   List<Label> get labels => [..._labels];
 
