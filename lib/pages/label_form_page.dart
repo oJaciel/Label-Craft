@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:label_craft/components/label_preview.dart';
 import 'package:label_craft/models/label.dart';
+import 'package:label_craft/models/label_provider.dart';
+import 'package:provider/provider.dart';
 
 class LabelFormPage extends StatefulWidget {
   const LabelFormPage({super.key});
@@ -11,6 +13,67 @@ class LabelFormPage extends StatefulWidget {
 
 class _LabelFormPageState extends State<LabelFormPage> {
   final _formKey = GlobalKey<FormState>();
+  final _formData = Map<String, Object>();
+
+  Future<void> _submitForm() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    _formKey.currentState!.save();
+
+    // Adicionando os valores booleanos manualmente
+    _formData['hasWeight'] = _hasWeight;
+    _formData['hasPrice'] = _hasPrice;
+    _formData['hasFab'] = _hasFab;
+    _formData['hasExpDate'] = _hasExpDate;
+
+    try {
+      await Provider.of<LabelProvider>(
+        context,
+        listen: false,
+      ).saveLabel(_formData);
+    } catch (error) {
+      await showDialog(
+        context: context,
+        builder:
+            (ctx) => AlertDialog(
+              title: Text('Erro!'),
+              content: Text(error.toString()),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text('Ok'),
+                ),
+              ],
+            ),
+      );
+    } finally {
+      Navigator.of(context).pop();
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (_formData.isEmpty) {
+      final argument = ModalRoute.of(context)?.settings.arguments;
+
+      if (argument != null) {
+        final label = argument as Label;
+        _formData['id'] = label.id;
+        _formData['name'] = label.name;
+        _formData['hasWeight'] = label.hasWeight;
+        _formData['weight'] = label.weight!;
+        _formData['hasPrice'] = label.hasPrice;
+        _formData['price'] = label.price!;
+        _formData['hasFab'] = label.hasFab;
+        _formData['hasExpDate'] = label.hasExpDate;
+      }
+      if (argument != null && argument is Map<String, dynamic>) {}
+    }
+  }
 
   // Dados do formulário
   String _name = '';
@@ -42,7 +105,10 @@ class _LabelFormPageState extends State<LabelFormPage> {
     );
 
     return Scaffold(
-      appBar: AppBar(title: Text('Nova Etiqueta')),
+      appBar: AppBar(
+        title: Text('Nova Etiqueta'),
+        actions: [IconButton(onPressed: _submitForm, icon: Icon(Icons.save))],
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12),
         child: Column(
@@ -82,45 +148,59 @@ class _LabelFormPageState extends State<LabelFormPage> {
               child: Column(
                 children: [
                   TextFormField(
+                    initialValue: _formData['name']?.toString(),
                     decoration: InputDecoration(labelText: 'Nome'),
                     onChanged: (val) => setState(() => _name = val),
+                    onSaved: (name) => _formData['name'] = name ?? '',
+                    textInputAction: TextInputAction.next,
                   ),
+
                   SwitchListTile(
                     title: Text('Incluir Peso'),
                     value: _hasWeight,
                     onChanged: (val) => setState(() => _hasWeight = val),
                   ),
+
                   if (_hasWeight)
                     TextFormField(
+                      initialValue: _formData['weight']?.toString(),
                       decoration: InputDecoration(labelText: 'Peso'),
                       onChanged: (val) => setState(() => _weight = val),
+                      onSaved: (weight) => _formData['weight'] = weight ?? '',
+                      textInputAction: TextInputAction.next,
                     ),
+
                   SwitchListTile(
                     title: Text('Incluir Preço'),
                     value: _hasPrice,
                     onChanged: (val) => setState(() => _hasPrice = val),
                   ),
+
                   if (_hasPrice)
                     TextFormField(
+                      initialValue: _formData['price']?.toString(),
                       decoration: InputDecoration(labelText: 'Preço'),
                       onChanged: (val) => setState(() => _price = val),
+                      onSaved: (price) => _formData['price'] = price ?? '',
+                      textInputAction: TextInputAction.next,
                     ),
+
                   SwitchListTile(
                     title: Text('Incluir Data de Fabricação'),
                     value: _hasFab,
                     onChanged: (val) => setState(() => _hasFab = val),
                   ),
+
                   SwitchListTile(
                     title: Text('Incluir Validade'),
                     value: _hasExpDate,
                     onChanged: (val) => setState(() => _hasExpDate = val),
                   ),
+
                   SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        // Salvar...
-                      }
+                      _submitForm();
                     },
                     child: Text('Salvar Etiqueta'),
                   ),
