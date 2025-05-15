@@ -70,15 +70,17 @@ class _LabelFormPageState extends State<LabelFormPage> {
         _formData['price'] = label.price!;
         _formData['hasFab'] = label.hasFab;
         _formData['hasExpDate'] = label.hasExpDate;
+
+        _hasWeight = _formData['hasWeight'] as bool? ?? false;
+        _hasPrice = _formData['hasPrice'] as bool? ?? false;
+        _hasFab = _formData['hasFab'] as bool? ?? false;
+        _hasExpDate = _formData['hasExpDate'] as bool? ?? false;
       }
       if (argument != null && argument is Map<String, dynamic>) {}
     }
   }
 
   // Dados do formulário
-  String _name = '';
-  String? _weight;
-  String? _price;
   bool _hasWeight = false;
   bool _hasPrice = false;
   bool _hasFab = false;
@@ -95,18 +97,18 @@ class _LabelFormPageState extends State<LabelFormPage> {
   Widget build(BuildContext context) {
     final labelPreview = Label(
       id: 'preview',
-      name: _name,
+      name: _formData['name'].toString(),
       hasWeight: _hasWeight,
-      weight: _weight,
+      weight: _formData['weight'] != null ? _formData['weight'].toString() : '',
       hasPrice: _hasPrice,
-      price: _price,
+      price: _formData['price'] != null ? _formData['price'].toString() : '',
       hasFab: _hasFab,
       hasExpDate: _hasExpDate,
     );
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Nova Etiqueta'),
+        title: Text('Formulário de Etiqueta'),
         actions: [IconButton(onPressed: _submitForm, icon: Icon(Icons.save))],
       ),
       body: SingleChildScrollView(
@@ -150,7 +152,8 @@ class _LabelFormPageState extends State<LabelFormPage> {
                   TextFormField(
                     initialValue: _formData['name']?.toString(),
                     decoration: InputDecoration(labelText: 'Nome'),
-                    onChanged: (val) => setState(() => _name = val),
+                    onChanged:
+                        (name) => setState(() => _formData['name'] = name),
                     onSaved: (name) => _formData['name'] = name ?? '',
                     textInputAction: TextInputAction.next,
                   ),
@@ -165,7 +168,9 @@ class _LabelFormPageState extends State<LabelFormPage> {
                     TextFormField(
                       initialValue: _formData['weight']?.toString(),
                       decoration: InputDecoration(labelText: 'Peso'),
-                      onChanged: (val) => setState(() => _weight = val),
+                      onChanged:
+                          (weight) =>
+                              setState(() => _formData['weight'] = weight),
                       onSaved: (weight) => _formData['weight'] = weight ?? '',
                       textInputAction: TextInputAction.next,
                     ),
@@ -180,7 +185,8 @@ class _LabelFormPageState extends State<LabelFormPage> {
                     TextFormField(
                       initialValue: _formData['price']?.toString(),
                       decoration: InputDecoration(labelText: 'Preço'),
-                      onChanged: (val) => setState(() => _price = val),
+                      onChanged:
+                          (price) => setState(() => _formData['price'] = price),
                       onSaved: (price) => _formData['price'] = price ?? '',
                       textInputAction: TextInputAction.next,
                     ),
@@ -198,11 +204,12 @@ class _LabelFormPageState extends State<LabelFormPage> {
                   ),
 
                   SizedBox(height: 20),
-                  ElevatedButton(
+                  ElevatedButton.icon(
                     onPressed: () {
                       _submitForm();
                     },
-                    child: Text('Salvar Etiqueta'),
+                    label: Text('Salvar Etiqueta'),
+                    icon: Icon(Icons.save),
                   ),
                 ],
               ),
