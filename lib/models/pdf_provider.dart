@@ -10,6 +10,29 @@ import 'package:printing/printing.dart';
 import 'package:share_plus/share_plus.dart';
 
 class PdfProvider {
+
+  static showWeight(Label label) {
+      if (label.hasWeight == false) {
+        return '';
+      } else if (label.hasWeight == true &&
+          (label.weight == '' || label.weight == null)) {
+        return 'Peso:______';
+      } else if (label.hasWeight == true && (label.weight != null)) {
+        return 'Peso: ${label.weight}';
+      }
+    }
+
+    static showPrice(Label label) {
+      if (label.hasPrice == false) {
+        return '';
+      } else if (label.hasPrice == true &&
+          (label.price == '' || label.price == null)) {
+        return 'Preço: R\$ ______';
+      } else if (label.hasPrice == true && (label.price != null)) {
+        return 'Preço: R\$ ${label.price}';
+      }
+    }
+
   static Future<void> generateLabelPdf(Label label) async {
     final pdf = pw.Document();
 
@@ -68,17 +91,15 @@ class PdfProvider {
                       pw.Column(
                         crossAxisAlignment: pw.CrossAxisAlignment.start,
                         children: [
+                          if (label.hasWeight)
                           pw.Text(
-                            label.hasWeight
-                                ? 'Peso: ${label.weight}'
-                                : 'Peso: ______',
+                            showWeight(label),
                             style: const pw.TextStyle(fontSize: 10),
                           ),
                           pw.SizedBox(height: sizedBoxHeight),
+                          if (label.hasPrice)
                           pw.Text(
-                            label.hasPrice
-                                ? 'Preço: R\$ ${label.price}'
-                                : 'Preço: R\$ ______',
+                            showPrice(label),
                             style: const pw.TextStyle(fontSize: 10),
                           ),
                           pw.SizedBox(height: (sizedBoxHeight! + 1)),

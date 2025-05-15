@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:label_craft/models/label.dart';
 import 'package:label_craft/models/pdf_provider.dart';
 
-
 class LabelGridItem extends StatelessWidget {
   const LabelGridItem(this.label, {super.key});
 
@@ -10,6 +9,28 @@ class LabelGridItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    showWeight() {
+      if (label.hasWeight == false) {
+        return '';
+      } else if (label.hasWeight == true &&
+          (label.weight == '' || label.weight == null)) {
+        return 'Peso:______';
+      } else if (label.hasWeight == true && (label.weight != null)) {
+        return 'Peso: ${label.weight}';
+      }
+    }
+
+    showPrice() {
+      if (label.hasPrice == false) {
+        return '';
+      } else if (label.hasPrice == true &&
+          (label.price == '' || label.price == null)) {
+        return 'Preço: R\$ ______';
+      } else if (label.hasPrice == true && (label.price != null)) {
+        return 'Preço: R\$ ${label.price}';
+      }
+    }
+
     return GestureDetector(
       onTap: () {
         PdfProvider.generateLabelPdf(label);
@@ -29,12 +50,8 @@ class LabelGridItem extends StatelessWidget {
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
             const SizedBox(height: 8),
-            Text(label.hasWeight ? 'Peso: ${label.weight}' : 'Peso:______'),
-            Text(
-              label.hasPrice
-                  ? 'Preço: R\$ ${label.price}'
-                  : 'Preço: R\$ ______',
-            ),
+            if (label.hasWeight) Text(showWeight()!),
+            if (label.hasPrice) Text(showPrice()!),
             if (label.hasFab)
               const Text(
                 'Data de fabricação: ____/____/_____',
