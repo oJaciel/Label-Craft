@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:label_craft/models/label.dart';
 import 'package:label_craft/models/label_provider.dart';
+import 'package:label_craft/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 
 class LabelsPageItem extends StatelessWidget {
@@ -16,7 +17,14 @@ class LabelsPageItem extends StatelessWidget {
         width: 100,
         child: Row(
           children: [
-            IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+            IconButton(
+              onPressed: () {
+                Navigator.of(
+                  context,
+                ).pushNamed(AppRoutes.LABEL_FORM, arguments: label);
+              },
+              icon: Icon(Icons.edit),
+            ),
             IconButton(
               onPressed: () {
                 showDialog(
