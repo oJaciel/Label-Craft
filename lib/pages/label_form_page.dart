@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:label_craft/components/label_preview.dart';
 import 'package:label_craft/models/label.dart';
 import 'package:label_craft/models/label_provider.dart';
@@ -18,6 +19,15 @@ class _LabelFormPageState extends State<LabelFormPage> {
   Future<void> _submitForm() async {
     if (!_formKey.currentState!.validate()) {
       return;
+    }
+
+    // Se os switches estiverem desligados, passa preço e peso como ''
+    if (_hasWeight == false) {
+      _formData['weight'] = '';
+    }
+
+    if (_hasPrice == false) {
+      _formData['price'] = '';
     }
 
     _formKey.currentState!.save();
@@ -156,6 +166,12 @@ class _LabelFormPageState extends State<LabelFormPage> {
                         (name) => setState(() => _formData['name'] = name),
                     onSaved: (name) => _formData['name'] = name ?? '',
                     textInputAction: TextInputAction.next,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'O nome é obrigatório';
+                      }
+                      return null;
+                    },
                   ),
 
                   SwitchListTile(
@@ -166,7 +182,7 @@ class _LabelFormPageState extends State<LabelFormPage> {
 
                   if (_hasWeight)
                     TextFormField(
-                      initialValue: _formData['weight']?.toString(),
+                      initialValue: _formData['weight']?.toString() ?? '',
                       decoration: InputDecoration(labelText: 'Peso'),
                       onChanged:
                           (weight) =>
@@ -183,12 +199,18 @@ class _LabelFormPageState extends State<LabelFormPage> {
 
                   if (_hasPrice)
                     TextFormField(
-                      initialValue: _formData['price']?.toString(),
+                      initialValue: _formData['price']?.toString() ?? '',
                       decoration: InputDecoration(labelText: 'Preço'),
                       onChanged:
                           (price) => setState(() => _formData['price'] = price),
                       onSaved: (price) => _formData['price'] = price ?? '',
                       textInputAction: TextInputAction.next,
+                      inputFormatters: [
+                        CurrencyInputFormatter(
+                      thousandSeparator: ThousandSeparator.Period,
+                      mantissaLength: 2,
+                    ),
+                  ],
                     ),
 
                   SwitchListTile(
