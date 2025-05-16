@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:label_craft/models/label.dart';
-import 'package:label_craft/models/pdf_provider.dart';
+import 'package:label_craft/utils/app_routes.dart';
 
 class LabelGridItem extends StatelessWidget {
   const LabelGridItem(this.label, {super.key});
@@ -33,7 +33,9 @@ class LabelGridItem extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        PdfProvider.generateLabelPdf(label);
+        Navigator.of(
+          context,
+        ).pushNamed(AppRoutes.PDF_GENERATOR, arguments: label);
       },
       child: Container(
         decoration: BoxDecoration(
