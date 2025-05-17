@@ -10,6 +10,7 @@ class PdfGeneratorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final label = ModalRoute.of(context)?.settings.arguments as Label;
 
+    // Gera o PDF com loading
     generatePdf(Label label) async {
       showDialog(
         context: context,
@@ -22,13 +23,15 @@ class PdfGeneratorPage extends StatelessWidget {
       Navigator.of(context).pop(); // Fecha o loading
     }
 
+    final int labelsPerPage = PdfProvider.calculateLabelsPerPage(label);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Visualizar e Gerar PDF'),
         actions: [
           IconButton(
             onPressed: () => generatePdf(label),
-            icon: Icon(Icons.picture_as_pdf),
+            icon: const Icon(Icons.picture_as_pdf),
           ),
         ],
       ),
@@ -38,14 +41,36 @@ class PdfGeneratorPage extends StatelessWidget {
           children: [
             Text(
               'Pré-visualização da etiqueta',
-              style: Theme.of(context).textTheme.titleMedium,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold
+              )
+              
             ),
             const SizedBox(height: 20),
 
-            // Expande o espaço do preview de forma proporcional
+            // Preview da etiqueta
             Center(child: LabelPreview(label)),
 
-            Spacer(),
+            const SizedBox(height: 12),
+
+            // Texto com quantidade de etiquetas por página
+            RichText(
+              text: TextSpan(
+                style: Theme.of(context).textTheme.bodyMedium,
+                children: [
+                  const TextSpan(text: 'Será gerado um PDF com '),
+                  TextSpan(
+                    text: '$labelsPerPage',
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    
+                  ),
+                  TextSpan(text: ' etiquetas')
+                ],
+              ),
+            ),
+
+            const Spacer(),
 
             SizedBox(
               width: double.infinity,
