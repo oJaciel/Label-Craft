@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:label_craft/models/label.dart';
+import 'package:label_craft/models/pdf_provider.dart';
 
 class LabelPreview extends StatelessWidget {
   const LabelPreview(this.label, {super.key});
@@ -49,7 +50,7 @@ class LabelPreview extends StatelessWidget {
             children: [
               if (label.hasWeight)
                 Text(
-                  'Peso: ${label.weight ?? '______'}',
+                  PdfProvider.showWeight(label),
                   style: const TextStyle(fontSize: 13),
                   textAlign: TextAlign.start,
                 ),
@@ -57,7 +58,7 @@ class LabelPreview extends StatelessWidget {
 
               if (label.hasPrice)
                 Text(
-                  'Preço: R\$ ${label.price ?? '______'}',
+                  PdfProvider.showPrice(label),
                   style: const TextStyle(fontSize: 13),
                   textAlign: TextAlign.start,
                 ),
