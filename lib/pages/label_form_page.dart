@@ -226,12 +226,21 @@ class _LabelFormPageState extends State<LabelFormPage> {
                   ),
 
                   SizedBox(height: 20),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      _submitForm();
-                    },
-                    label: Text('Salvar Etiqueta'),
-                    icon: Icon(Icons.save),
+                  Container(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.secondary,
+                          foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                          iconColor: Colors.white
+                      ),
+                      onPressed: () {
+                        _submitForm();
+                      },
+                      label: Text('Salvar Etiqueta'),
+                      icon: Icon(Icons.save),
+                    ),
                   ),
                 ],
               ),

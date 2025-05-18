@@ -9,19 +9,44 @@ class AppDrawer extends StatelessWidget {
     return Drawer(
       child: Column(
         children: [
-          AppBar(title: Text('Bem vindo!'), automaticallyImplyLeading: false),
-          Divider(),
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                'Bem-vindo!',
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
           ListTile(
-            leading: Icon(Icons.label),
-            title: Text('Etiquetas'),
+            leading: Icon(
+              Icons.label,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            title: Text(
+              'Etiquetas',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
             onTap: () {
               Navigator.of(context).pushReplacementNamed(AppRoutes.HOME);
             },
           ),
-          Divider(),
+          const Divider(),
           ListTile(
-            leading: Icon(Icons.create),
-            title: Text('Gerenciar Etiquetas'),
+            leading: Icon(
+              Icons.create,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            title: Text(
+              'Gerenciar Etiquetas',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
             onTap: () {
               Navigator.of(context).pushReplacementNamed(AppRoutes.LABEL_LIST);
             },

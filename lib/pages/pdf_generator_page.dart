@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:label_craft/components/label_preview.dart';
 import 'package:label_craft/models/label.dart';
 import 'package:label_craft/models/pdf_provider.dart';
+import 'package:label_craft/theme/app_theme.dart';
 
 class PdfGeneratorPage extends StatelessWidget {
   const PdfGeneratorPage({super.key});
@@ -28,6 +29,8 @@ class PdfGeneratorPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Visualizar e Gerar PDF'),
+        backgroundColor: AppTheme.primaryColor,
+        foregroundColor: Colors.white,
         actions: [
           IconButton(
             onPressed: () => generatePdf(label),
@@ -41,11 +44,7 @@ class PdfGeneratorPage extends StatelessWidget {
           children: [
             Text(
               'Pré-visualização da etiqueta',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold
-              )
-              
+              style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 20),
 
@@ -62,10 +61,13 @@ class PdfGeneratorPage extends StatelessWidget {
                   const TextSpan(text: 'Será gerado um PDF com '),
                   TextSpan(
                     text: '$labelsPerPage',
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: AppTheme.primaryColor,
+                    ),
                   ),
-                  TextSpan(text: ' etiquetas')
+                  const TextSpan(text: ' etiquetas'),
                 ],
               ),
             ),
@@ -76,8 +78,12 @@ class PdfGeneratorPage extends StatelessWidget {
               width: double.infinity,
               height: 48,
               child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.secondaryColor,
+                  foregroundColor: Colors.white,
+                ),
                 onPressed: () => generatePdf(label),
-                icon: const Icon(Icons.picture_as_pdf),
+                icon: const Icon(Icons.picture_as_pdf, color:Colors.white,),
                 label: const Text('Gerar PDF'),
               ),
             ),

@@ -15,8 +15,12 @@ class LabelsPage extends StatelessWidget {
     final labels = Provider.of<LabelProvider>(context).labels;
 
     return Scaffold(
-      appBar: AppBar(title: Text('Gerenciar Etiquetas')),
-      drawer: AppDrawer(),
+      appBar: AppBar(
+        title: const Text('Gerenciar Etiquetas'),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+      ),
+      drawer: const AppDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: Column(
@@ -24,7 +28,7 @@ class LabelsPage extends StatelessWidget {
             AppButton(
               'Adicionar Nova Etiqueta',
               AppRoutes.LABEL_FORM,
-              Icon(Icons.add),
+              const Icon(Icons.add),
             ),
             const SizedBox(height: 10),
             labels.isNotEmpty
@@ -38,7 +42,7 @@ class LabelsPage extends StatelessWidget {
                     },
                   ),
                 )
-                : EmptyListMessage(),
+                : const EmptyListMessage(),
           ],
         ),
       ),

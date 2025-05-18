@@ -11,8 +11,11 @@ class LabelsPageItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return ListTile(
-      title: Text(label.name),
+      title: Text(label.name, style: theme.textTheme.titleMedium),
       trailing: SizedBox(
         width: 100,
         child: Row(
@@ -23,7 +26,7 @@ class LabelsPageItem extends StatelessWidget {
                   context,
                 ).pushNamed(AppRoutes.LABEL_FORM, arguments: label);
               },
-              icon: Icon(Icons.edit),
+              icon: Icon(Icons.edit, color: colorScheme.primary),
             ),
             IconButton(
               onPressed: () {
@@ -31,14 +34,14 @@ class LabelsPageItem extends StatelessWidget {
                   context: context,
                   builder:
                       (ctx) => AlertDialog(
-                        title: Text('Exclusão de Item'),
-                        content: Text('Deseja remover o item?'),
+                        title: const Text('Exclusão de Item'),
+                        content: const Text('Deseja remover o item?'),
                         actions: [
                           TextButton(
                             onPressed: () {
                               Navigator.of(ctx).pop(false);
                             },
-                            child: Text('Não'),
+                            child: const Text('Não'),
                           ),
                           TextButton(
                             onPressed: () {
@@ -50,19 +53,14 @@ class LabelsPageItem extends StatelessWidget {
                             },
                             child: Text(
                               'Sim',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.error,
-                              ),
+                              style: TextStyle(color: colorScheme.error),
                             ),
                           ),
                         ],
                       ),
                 );
               },
-              icon: Icon(
-                Icons.delete,
-                color: Theme.of(context).colorScheme.error,
-              ),
+              icon: Icon(Icons.delete, color: colorScheme.error),
             ),
           ],
         ),

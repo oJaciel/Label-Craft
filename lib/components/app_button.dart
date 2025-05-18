@@ -13,11 +13,16 @@ class AppButton extends StatelessWidget {
       height: 50,
       width: double.infinity,
       child: TextButton.icon(
+        style: TextButton.styleFrom(
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+          foregroundColor: Theme.of(context).colorScheme.onSecondary,
+          iconColor: Colors.white
+        ),
         onPressed: () {
           Navigator.of(context).pushNamed(route);
         },
         label: Text(text),
-        icon: icon ,
+        icon: icon,
       ),
     );
   }

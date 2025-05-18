@@ -4,6 +4,7 @@ import 'package:label_craft/pages/home_page.dart';
 import 'package:label_craft/pages/label_form_page.dart';
 import 'package:label_craft/pages/labels_page.dart';
 import 'package:label_craft/pages/pdf_generator_page.dart';
+import 'package:label_craft/theme/app_theme.dart';
 import 'package:label_craft/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 
@@ -21,6 +22,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Label Craft',
         debugShowCheckedModeBanner: false,
+        theme: AppTheme.theme,
+        themeMode: ThemeMode.system,
         routes: {
           AppRoutes.HOME: (ctx) => HomePage(),
           AppRoutes.LABEL_LIST: (ctx) => LabelsPage(),
