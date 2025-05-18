@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:label_craft/components/empty_list_message.dart';
 import 'package:label_craft/components/label_grid_item.dart';
 import 'package:label_craft/models/label.dart';
 import 'package:label_craft/models/label_provider.dart';
@@ -12,7 +13,6 @@ class LabelGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     double calculateAspectRatio() {
       if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
         return 3 / 3;
@@ -28,15 +28,19 @@ class LabelGrid extends StatelessWidget {
 
     final List<Label> loadedLabels = provider.labels;
 
-    return GridView.builder(
-      itemCount: loadedLabels.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: calculateAspectRatio(),
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-      ),
-      itemBuilder: (ctx, i) => LabelGridItem(loadedLabels[i]),
-    );
+    if (loadedLabels.isNotEmpty) {
+      return GridView.builder(
+        itemCount: loadedLabels.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: calculateAspectRatio(),
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+        ),
+        itemBuilder: (ctx, i) => LabelGridItem(loadedLabels[i]),
+      );
+    } else {
+      return EmptyListMessage();
+    }
   }
 }

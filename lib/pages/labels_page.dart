@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:label_craft/components/app_button.dart';
 import 'package:label_craft/components/app_drawer.dart';
+import 'package:label_craft/components/empty_list_message.dart';
 import 'package:label_craft/components/labels_page_item.dart';
 import 'package:label_craft/models/label_provider.dart';
 import 'package:label_craft/utils/app_routes.dart';
@@ -26,16 +27,18 @@ class LabelsPage extends StatelessWidget {
               Icon(Icons.add),
             ),
             const SizedBox(height: 10),
-            Expanded(
-              child: ListView.builder(
-                itemCount: labels.length,
-                itemBuilder: (ctx, i) {
-                  return Column(
-                    children: [LabelsPageItem(labels[i]), const Divider()],
-                  );
-                },
-              ),
-            ),
+            labels.isNotEmpty
+                ? Expanded(
+                  child: ListView.builder(
+                    itemCount: labels.length,
+                    itemBuilder: (ctx, i) {
+                      return Column(
+                        children: [LabelsPageItem(labels[i]), const Divider()],
+                      );
+                    },
+                  ),
+                )
+                : EmptyListMessage(),
           ],
         ),
       ),
