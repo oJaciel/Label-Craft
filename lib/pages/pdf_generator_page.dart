@@ -4,28 +4,62 @@ import 'package:label_craft/models/label.dart';
 import 'package:label_craft/models/pdf_provider.dart';
 import 'package:label_craft/theme/app_theme.dart';
 
-class PdfGeneratorPage extends StatelessWidget {
+class PdfGeneratorPage extends StatefulWidget {
   const PdfGeneratorPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final label = ModalRoute.of(context)?.settings.arguments as Label;
+  State<PdfGeneratorPage> createState() => _PdfGeneratorPageState();
+}
 
-    // Gera o PDF com loading
-    generatePdf(Label label) async {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (_) => const Center(child: CircularProgressIndicator()),
-      );
+class _PdfGeneratorPageState extends State<PdfGeneratorPage> {
+  final TextEditingController _labelQuantityController =
+      TextEditingController();
+  late Label label;
+  late int defaultQuantity;
+  bool useRecommended = true;
 
-      await PdfProvider.generateLabelPdf(label);
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    label = ModalRoute.of(context)?.settings.arguments as Label;
+    defaultQuantity = calculateRecommendedLabels(label);
+    _labelQuantityController.text = useRecommended ? defaultQuantity.toString() : _labelQuantityController.text;
+  }
 
-      Navigator.of(context).pop(); // Fecha o loading
+  int calculateRecommendedLabels(Label label) {
+    int activeFields = 0;
+    if (label.hasWeight) activeFields++;
+    if (label.hasPrice) activeFields++;
+    if (label.hasFab) activeFields++;
+    if (label.hasExpDate) activeFields++;
+
+    switch (activeFields) {
+      case 1:
+        return 27;
+      case 2:
+        return 24;
+      case 3:
+        return 21;
+      case 4:
+      default:
+        return 18;
     }
+  }
 
-    final int labelsPerPage = PdfProvider.calculateLabelsPerPage(label);
+  void generatePdf(Label label, int quantity) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(child: CircularProgressIndicator()),
+    );
 
+    await PdfProvider.generateLabelPdf(label, quantity);
+
+    Navigator.of(context).pop();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Visualizar e Gerar PDF'),
@@ -33,7 +67,12 @@ class PdfGeneratorPage extends StatelessWidget {
         foregroundColor: Colors.white,
         actions: [
           IconButton(
-            onPressed: () => generatePdf(label),
+            onPressed:
+                () => generatePdf(
+                  label,
+                  int.tryParse(_labelQuantityController.text) ??
+                      defaultQuantity,
+                ),
             icon: const Icon(Icons.picture_as_pdf),
           ),
         ],
@@ -48,26 +87,94 @@ class PdfGeneratorPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            // Preview da etiqueta
             Center(child: LabelPreview(label)),
 
             const SizedBox(height: 12),
 
-            // Texto com quantidade de etiquetas por página
+            Text(
+              'Selecione a quantidade de etiquetas para gerar:',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            const SizedBox(height: 8),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton.icon(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                    foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                    iconColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 2,
+                    shadowColor: Colors.black38,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      useRecommended = true;
+                    });
+                  },
+                  label: Text('Quantidade recomendada'),
+                  icon: Icon(Icons.recommend),
+                ),
+                SizedBox(width: 10),
+                TextButton.icon(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                    foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                    iconColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 2,
+                    shadowColor: Colors.black38,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      useRecommended = false;
+                    });
+                  },
+                  label: Text('Quantidade personalizada'),
+                  icon: Icon(Icons.edit_square),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 8),
+
+            useRecommended
+                ? const SizedBox.shrink()
+                : SizedBox(
+                  width: 100,
+                  child: TextFormField(
+                    controller: _labelQuantityController,
+                    enabled: !useRecommended,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      hintText: 'Ex: $defaultQuantity',
+                    ),
+                  ),
+                ),
+
+            const SizedBox(height: 12),
+
             RichText(
               text: TextSpan(
                 style: Theme.of(context).textTheme.bodyMedium,
                 children: [
-                  const TextSpan(text: 'Será gerado um PDF com '),
+                  const TextSpan(text: 'Recomendado para esse modelo: '),
                   TextSpan(
-                    text: '$labelsPerPage',
+                    text: '$defaultQuantity',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                       color: AppTheme.primaryColor,
                     ),
                   ),
-                  const TextSpan(text: ' etiquetas'),
+                  const TextSpan(text: ' etiquetas por página.'),
                 ],
               ),
             ),
@@ -82,8 +189,18 @@ class PdfGeneratorPage extends StatelessWidget {
                   backgroundColor: AppTheme.secondaryColor,
                   foregroundColor: Colors.white,
                 ),
-                onPressed: () => generatePdf(label),
-                icon: const Icon(Icons.picture_as_pdf, color:Colors.white,),
+                onPressed: () {
+                  final quantity =
+                      useRecommended
+                          ? defaultQuantity
+                          : int.tryParse(_labelQuantityController.text) ??
+                              defaultQuantity;
+                  generatePdf(
+                    label,
+                    quantity
+                  );
+                },
+                icon: const Icon(Icons.picture_as_pdf, color: Colors.white),
                 label: const Text('Gerar PDF'),
               ),
             ),

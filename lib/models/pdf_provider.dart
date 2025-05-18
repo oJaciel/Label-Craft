@@ -10,27 +10,6 @@ import 'package:printing/printing.dart';
 import 'package:share_plus/share_plus.dart';
 
 class PdfProvider {
-  static int calculateLabelsPerPage(Label label) {
-    int activeFields = 0;
-
-    if (label.hasWeight) activeFields++;
-    if (label.hasPrice) activeFields++;
-    if (label.hasFab) activeFields++;
-    if (label.hasExpDate) activeFields++;
-
-    switch (activeFields) {
-      case 1:
-        return 27;
-      case 2:
-        return 24;
-      case 3:
-        return 21;
-      case 4:
-      default:
-        return 18;
-    }
-  }
-
   static showWeight(Label label) {
     if (label.hasWeight == false) {
       return '';
@@ -53,7 +32,7 @@ class PdfProvider {
     }
   }
 
-  static Future<void> generateLabelPdf(Label label) async {
+  static Future<void> generateLabelPdf(Label label, int labelsQuantity) async {
     final year = DateTime.now().year;
 
     final pdf = pw.Document();
@@ -75,76 +54,73 @@ class PdfProvider {
             pw.Wrap(
               spacing: 0,
               runSpacing: 0,
-              children: List.generate(
-                PdfProvider.calculateLabelsPerPage(label),
-                (index) {
-                  return pw.Container(
-                    width: (PdfPageFormat.a4.width - 20) / 3,
-                    padding: const pw.EdgeInsets.all(4),
-                    decoration: pw.BoxDecoration(
-                      border: pw.Border.all(color: PdfColors.black, width: 1),
-                    ),
-                    child: pw.Column(
-                      children: [
-                        //Coluna da imagem, CPF e Fone
-                        pw.Column(
-                          mainAxisAlignment: pw.MainAxisAlignment.center,
-                          children: [
-                            pw.Image(
-                              image,
-                              width: 92,
-                              height: 42,
-                              alignment: pw.Alignment.center,
-                            ),
-                            pw.Text(
-                              'CNPJ: 08.601.406/0001-31',
-                              style: pw.TextStyle(fontSize: 9),
-                              textAlign: pw.TextAlign.start,
-                            ),
-                            pw.Text(
-                              'Fone: (54) 9 9957-5514 / 9 9616-8921',
-                              style: pw.TextStyle(fontSize: 9),
-                              textAlign: pw.TextAlign.start,
-                            ),
-                          ],
-                        ),
+              children: List.generate(labelsQuantity, (index) {
+                return pw.Container(
+                  width: (PdfPageFormat.a4.width - 20) / 3,
+                  padding: const pw.EdgeInsets.all(4),
+                  decoration: pw.BoxDecoration(
+                    border: pw.Border.all(color: PdfColors.black, width: 1),
+                  ),
+                  child: pw.Column(
+                    children: [
+                      //Coluna da imagem, CPF e Fone
+                      pw.Column(
+                        mainAxisAlignment: pw.MainAxisAlignment.center,
+                        children: [
+                          pw.Image(
+                            image,
+                            width: 92,
+                            height: 42,
+                            alignment: pw.Alignment.center,
+                          ),
+                          pw.Text(
+                            'CNPJ: 08.601.406/0001-31',
+                            style: pw.TextStyle(fontSize: 9),
+                            textAlign: pw.TextAlign.start,
+                          ),
+                          pw.Text(
+                            'Fone: (54) 9 9957-5514 / 9 9616-8921',
+                            style: pw.TextStyle(fontSize: 9),
+                            textAlign: pw.TextAlign.start,
+                          ),
+                        ],
+                      ),
 
-                        pw.SizedBox(height: sizedBoxHeight),
+                      pw.SizedBox(height: sizedBoxHeight),
 
-                        //Coluna das informações
-                        pw.Column(
-                          crossAxisAlignment: pw.CrossAxisAlignment.start,
-                          children: [
-                            if (label.hasWeight)
-                              pw.Text(
-                                showWeight(label),
-                                style: const pw.TextStyle(fontSize: 10),
-                              ),
-                            pw.SizedBox(height: sizedBoxHeight),
-                            if (label.hasPrice)
-                              pw.Text(
-                                showPrice(label),
-                                style: const pw.TextStyle(fontSize: 10),
-                              ),
-                            pw.SizedBox(height: (sizedBoxHeight! + 1)),
-                            if (label.hasFab)
-                              pw.Text(
-                                'Fabricação: _____/_____/$year',
-                                style: const pw.TextStyle(fontSize: 10),
-                              ),
-                            pw.SizedBox(height: sizedBoxHeight),
-                            if (label.hasExpDate)
-                              pw.Text(
-                                'Validade: 02 meses (sob congelamento)',
-                                style: const pw.TextStyle(fontSize: 10),
-                              ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
+                      //Coluna das informações
+                      pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.start,
+                        children: [
+                          if (label.hasWeight)
+                            pw.Text(
+                              showWeight(label),
+                              style: const pw.TextStyle(fontSize: 10),
+                            ),
+                          pw.SizedBox(height: sizedBoxHeight),
+                          if (label.hasPrice)
+                            pw.Text(
+                              showPrice(label),
+                              style: const pw.TextStyle(fontSize: 10),
+                            ),
+                          pw.SizedBox(height: (sizedBoxHeight! + 1)),
+                          if (label.hasFab)
+                            pw.Text(
+                              'Fabricação: _____/_____/$year',
+                              style: const pw.TextStyle(fontSize: 10),
+                            ),
+                          pw.SizedBox(height: sizedBoxHeight),
+                          if (label.hasExpDate)
+                            pw.Text(
+                              'Validade: 02 meses (sob congelamento)',
+                              style: const pw.TextStyle(fontSize: 10),
+                            ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              }),
             ),
           ];
         },
