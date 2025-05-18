@@ -23,7 +23,10 @@ class _PdfGeneratorPageState extends State<PdfGeneratorPage> {
     super.didChangeDependencies();
     label = ModalRoute.of(context)?.settings.arguments as Label;
     defaultQuantity = calculateRecommendedLabels(label);
-    _labelQuantityController.text = useRecommended ? defaultQuantity.toString() : _labelQuantityController.text;
+    _labelQuantityController.text =
+        useRecommended
+            ? defaultQuantity.toString()
+            : _labelQuantityController.text;
   }
 
   int calculateRecommendedLabels(Label label) {
@@ -102,9 +105,18 @@ class _PdfGeneratorPageState extends State<PdfGeneratorPage> {
               children: [
                 TextButton.icon(
                   style: TextButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.secondary,
-                    foregroundColor: Theme.of(context).colorScheme.onSecondary,
-                    iconColor: Colors.white,
+                    backgroundColor:
+                        useRecommended
+                            ? Theme.of(context).colorScheme.secondary
+                            : Theme.of(context).colorScheme.onSecondary,
+                    foregroundColor:
+                        useRecommended
+                            ? Theme.of(context).colorScheme.onSecondary
+                            : Theme.of(context).colorScheme.secondary,
+                    iconColor:
+                        useRecommended
+                            ? Theme.of(context).colorScheme.onSecondary
+                            : Theme.of(context).colorScheme.secondary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -119,12 +131,23 @@ class _PdfGeneratorPageState extends State<PdfGeneratorPage> {
                   label: Text('Quantidade recomendada'),
                   icon: Icon(Icons.recommend),
                 ),
+
                 SizedBox(width: 10),
+
                 TextButton.icon(
                   style: TextButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.secondary,
-                    foregroundColor: Theme.of(context).colorScheme.onSecondary,
-                    iconColor: Colors.white,
+                    backgroundColor:
+                        !useRecommended
+                            ? Theme.of(context).colorScheme.secondary
+                            : Theme.of(context).colorScheme.onSecondary,
+                    foregroundColor:
+                        !useRecommended
+                            ? Theme.of(context).colorScheme.onSecondary
+                            : Theme.of(context).colorScheme.secondary,
+                    iconColor:
+                        !useRecommended
+                            ? Theme.of(context).colorScheme.onSecondary
+                            : Theme.of(context).colorScheme.secondary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -165,7 +188,7 @@ class _PdfGeneratorPageState extends State<PdfGeneratorPage> {
               text: TextSpan(
                 style: Theme.of(context).textTheme.bodyMedium,
                 children: [
-                  const TextSpan(text: 'Recomendado para esse modelo: '),
+                  const TextSpan(text: 'Etiquetas por página nesse modelo: '),
                   TextSpan(
                     text: '$defaultQuantity',
                     style: const TextStyle(
@@ -174,7 +197,6 @@ class _PdfGeneratorPageState extends State<PdfGeneratorPage> {
                       color: AppTheme.primaryColor,
                     ),
                   ),
-                  const TextSpan(text: ' etiquetas por página.'),
                 ],
               ),
             ),
@@ -195,10 +217,7 @@ class _PdfGeneratorPageState extends State<PdfGeneratorPage> {
                           ? defaultQuantity
                           : int.tryParse(_labelQuantityController.text) ??
                               defaultQuantity;
-                  generatePdf(
-                    label,
-                    quantity
-                  );
+                  generatePdf(label, quantity);
                 },
                 icon: const Icon(Icons.picture_as_pdf, color: Colors.white),
                 label: const Text('Gerar PDF'),
