@@ -7,8 +7,13 @@ import 'package:label_craft/pages/pdf_generator_page.dart';
 import 'package:label_craft/theme/app_theme.dart';
 import 'package:label_craft/utils/app_routes.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
   runApp(const MyApp());
 }
 

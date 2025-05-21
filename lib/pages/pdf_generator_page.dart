@@ -80,150 +80,147 @@ class _PdfGeneratorPageState extends State<PdfGeneratorPage> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-        child: Column(
-          children: [
-            Text(
-              'Pré-visualização da etiqueta',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const SizedBox(height: 20),
-
-            Center(child: LabelPreview(label)),
-
-            const SizedBox(height: 12),
-
-            Text(
-              'Selecione a quantidade de etiquetas para gerar:',
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            const SizedBox(height: 8),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton.icon(
-                  style: TextButton.styleFrom(
-                    backgroundColor:
-                        useRecommended
-                            ? Theme.of(context).colorScheme.secondary
-                            : Theme.of(context).colorScheme.onSecondary,
-                    foregroundColor:
-                        useRecommended
-                            ? Theme.of(context).colorScheme.onSecondary
-                            : Theme.of(context).colorScheme.secondary,
-                    iconColor:
-                        useRecommended
-                            ? Theme.of(context).colorScheme.onSecondary
-                            : Theme.of(context).colorScheme.secondary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    elevation: 2,
-                    shadowColor: Colors.black38,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      useRecommended = true;
-                    });
-                  },
-                  label: Text('Quantidade recomendada'),
-                  icon: Icon(Icons.recommend),
-                ),
-
-                SizedBox(width: 10),
-
-                TextButton.icon(
-                  style: TextButton.styleFrom(
-                    backgroundColor:
-                        !useRecommended
-                            ? Theme.of(context).colorScheme.secondary
-                            : Theme.of(context).colorScheme.onSecondary,
-                    foregroundColor:
-                        !useRecommended
-                            ? Theme.of(context).colorScheme.onSecondary
-                            : Theme.of(context).colorScheme.secondary,
-                    iconColor:
-                        !useRecommended
-                            ? Theme.of(context).colorScheme.onSecondary
-                            : Theme.of(context).colorScheme.secondary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    elevation: 2,
-                    shadowColor: Colors.black38,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      useRecommended = false;
-                    });
-                  },
-                  label: Text('Quantidade personalizada'),
-                  icon: Icon(Icons.edit_square),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 8),
-
-            useRecommended
-                ? const SizedBox.shrink()
-                : SizedBox(
-                  width: 100,
-                  child: TextFormField(
-                    controller: _labelQuantityController,
-                    enabled: !useRecommended,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      hintText: 'Ex: $defaultQuantity',
-                    ),
-                  ),
-                ),
-
-            const SizedBox(height: 12),
-
-            RichText(
-              text: TextSpan(
-                style: Theme.of(context).textTheme.bodyMedium,
-                children: [
-                  const TextSpan(text: 'Etiquetas por página nesse modelo: '),
-                  TextSpan(
-                    text: '$defaultQuantity',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: AppTheme.primaryColor,
-                    ),
-                  ),
-                ],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+          child: Column(
+            children: [
+              Text(
+                'Pré-visualização da etiqueta',
+                style: Theme.of(context).textTheme.titleLarge,
               ),
-            ),
+              const SizedBox(height: 20),
 
-            const Spacer(),
+              Center(child: LabelPreview(label)),
 
-            SizedBox(
-              width: double.infinity,
-              height: 48,
-              child: ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.secondaryColor,
-                  foregroundColor: Colors.white,
+              const SizedBox(height: 12),
+
+              Text(
+                'Selecione a quantidade de etiquetas para gerar:',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              const SizedBox(height: 8),
+
+              RichText(
+                text: TextSpan(
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  children: [
+                    const TextSpan(text: 'Etiquetas por página nesse modelo: '),
+                    TextSpan(
+                      text: '$defaultQuantity',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: AppTheme.primaryColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 12),
+
+              TextButton.icon(
+                style: TextButton.styleFrom(
+                  backgroundColor:
+                      useRecommended
+                          ? Theme.of(context).colorScheme.secondary
+                          : Theme.of(context).colorScheme.onSecondary,
+                  foregroundColor:
+                      useRecommended
+                          ? Theme.of(context).colorScheme.onSecondary
+                          : Theme.of(context).colorScheme.secondary,
+                  iconColor:
+                      useRecommended
+                          ? Theme.of(context).colorScheme.onSecondary
+                          : Theme.of(context).colorScheme.secondary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  elevation: 2,
+                  shadowColor: Colors.black38,
                 ),
                 onPressed: () {
-                  final quantity =
-                      useRecommended
-                          ? defaultQuantity
-                          : int.tryParse(_labelQuantityController.text) ??
-                              defaultQuantity;
-                  generatePdf(label, quantity);
+                  setState(() {
+                    useRecommended = true;
+                  });
                 },
-                icon: const Icon(Icons.picture_as_pdf, color: Colors.white),
-                label: const Text('Gerar PDF'),
+                label: Text('Quantidade recomendada'),
+                icon: Icon(Icons.recommend),
               ),
-            ),
-          ],
+
+              SizedBox(height: 20),
+
+              TextButton.icon(
+                style: TextButton.styleFrom(
+                  backgroundColor:
+                      !useRecommended
+                          ? Theme.of(context).colorScheme.secondary
+                          : Theme.of(context).colorScheme.onSecondary,
+                  foregroundColor:
+                      !useRecommended
+                          ? Theme.of(context).colorScheme.onSecondary
+                          : Theme.of(context).colorScheme.secondary,
+                  iconColor:
+                      !useRecommended
+                          ? Theme.of(context).colorScheme.onSecondary
+                          : Theme.of(context).colorScheme.secondary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  elevation: 2,
+                  shadowColor: Colors.black38,
+                ),
+                onPressed: () {
+                  setState(() {
+                    useRecommended = false;
+                  });
+                },
+                label: Text('Quantidade personalizada'),
+                icon: Icon(Icons.edit_square),
+              ),
+
+              const SizedBox(height: 8),
+
+              useRecommended
+                  ? const SizedBox.shrink()
+                  : SizedBox(
+                    width: 100,
+                    child: TextFormField(
+                      controller: _labelQuantityController,
+                      enabled: !useRecommended,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        hintText: 'Ex: $defaultQuantity',
+                      ),
+                    ),
+                  ),
+
+              const Spacer(),
+
+              SizedBox(
+                width: double.infinity,
+                height: 48,
+                child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.secondaryColor,
+                    foregroundColor: Colors.white,
+                  ),
+                  onPressed: () {
+                    final quantity =
+                        useRecommended
+                            ? defaultQuantity
+                            : int.tryParse(_labelQuantityController.text) ??
+                                defaultQuantity;
+                    generatePdf(label, quantity);
+                  },
+                  icon: const Icon(Icons.picture_as_pdf, color: Colors.white),
+                  label: const Text('Gerar PDF'),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
