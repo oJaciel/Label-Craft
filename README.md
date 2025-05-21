@@ -1,16 +1,40 @@
-# label_craft
+# Label-Craft
+Aplicativo para criação e impressão de etiquetas.
 
-A new Flutter project.
+## Funcionalidades
+O aplicativo possui funcionalidades de CRUD para as etiquetas, bem como geração de PDF das etiquetas.
 
-## Getting Started
+- Gerar PDF de etiquetas: a tela inicial da aplicação é dedicada a navegação pelas etiquetas cadastradas, visualizando um preview da etiqueta, e podendo gerar PDF em quantidades personalizadas.
+- CRUD de etiqueta: na tela de gerenciamento de etiquetas, o usuário pode manipular as informações relevantes, adicionando, editando e excluindo os dados. 
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## Instalação
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Siga as etapas abaixo para configurar e executar o projeto localmente:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Pré-requisitos
+Certifique-se de que você tenha o seguinte instalado:
+- [Flutter SDK](https://docs.flutter.dev/get-started/install) (versão compatível com o projeto)
+- [Android Studio](https://developer.android.com/studio) ou outro editor de sua preferência (opcional, mas recomendado)
+- Emulador ou dispositivo físico conectado
+
+### Passo 1: Clone o repositório
+No terminal, execute:
+```bash
+git clone https://github.com/oJaciel/Label-Craft
+cd Label-Craft
+```
+
+### Passo 2: Instale as dependências
+Execute o comando:
+```bash
+flutter pub get
+```
+
+### Passo 3: Execute o projeto
+Inicie o aplicativo com o comando:
+```bash
+flutter run
+```
+
+Certifique-se de que um dispositivo emulador ou físico esteja conectado para que o app seja executado.
