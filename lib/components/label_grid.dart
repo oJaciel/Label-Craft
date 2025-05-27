@@ -13,9 +13,24 @@ class LabelGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    // Ajusta a quantidade de colunas dinamicamente
+    int calculateCrossAxisCount() {
+      if (screenWidth >= 1200) {
+        return 6;
+      } else if (screenWidth >= 900) {
+        return 4;
+      } else if (screenWidth >= 600) {
+        return 3;
+      } else {
+        return 2;
+      }
+    }
+
     double calculateAspectRatio() {
       if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
-        return 3 / 3;
+        return 3 / 4;
       } else if (kIsWeb ||
           (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
         return 3 / 2;
@@ -32,7 +47,7 @@ class LabelGrid extends StatelessWidget {
       return GridView.builder(
         itemCount: loadedLabels.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+          crossAxisCount: calculateCrossAxisCount(),
           childAspectRatio: calculateAspectRatio(),
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
