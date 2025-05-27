@@ -1,6 +1,8 @@
 # Label-Craft
 Aplicativo para criação e impressão de etiquetas.
 
+![UI Card](/ui.png)
+
 ## Funcionalidades
 O aplicativo possui funcionalidades de CRUD para as etiquetas, bem como geração de PDF das etiquetas.
 
