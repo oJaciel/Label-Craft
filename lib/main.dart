@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:label_craft/models/label_provider.dart';
+import 'package:label_craft/pages/header_page.dart';
 import 'package:label_craft/pages/home_page.dart';
 import 'package:label_craft/pages/label_form_page.dart';
 import 'package:label_craft/pages/labels_page.dart';
@@ -31,7 +32,8 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.system,
         routes: {
           AppRoutes.HOME: (ctx) => HomePage(),
-          AppRoutes.LABEL_LIST: (ctx) => LabelsPage(),
+          AppRoutes.LABEL_PAGE: (ctx) => LabelsPage(),
+          AppRoutes.HEADER_PAGE: (ctx) => HeaderPage(),
           AppRoutes.LABEL_FORM: (ctx) => LabelFormPage(),
           AppRoutes.PDF_GENERATOR: (ctx) => PdfGeneratorPage(),
         },

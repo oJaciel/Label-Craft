@@ -27,9 +27,9 @@ class AppDrawer extends StatelessWidget {
           ),
           DrawerItem(Icons.home, 'Início', AppRoutes.HOME),
           const Divider(),
-          DrawerItem(Icons.label, 'Etiquetas', AppRoutes.LABEL_LIST),
+          DrawerItem(Icons.label, 'Etiquetas', AppRoutes.LABEL_PAGE),
           const Divider(),
-          DrawerItem(Icons.text_fields, 'Cabeçalhos', ''),
+          DrawerItem(Icons.text_fields, 'Cabeçalhos', AppRoutes.HEADER_PAGE),
         ],
       ),
     );

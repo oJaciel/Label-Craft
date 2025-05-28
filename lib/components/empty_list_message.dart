@@ -12,10 +12,10 @@ class EmptyListMessage extends StatelessWidget {
             Icon(Icons.info_outline_rounded, size: 70),
             SizedBox(height: 10),
             Text(
-              'Nenhuma etiqueta cadastrada!',
+              'Nenhum registro encontrado!',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            Text('Adicione uma nova etiqueta para iniciar'),
+            Text('Adicione para iniciar'),
           ],
         ),
       );
