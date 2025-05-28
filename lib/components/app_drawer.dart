@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:label_craft/components/drawer_item.dart';
 import 'package:label_craft/utils/app_routes.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -24,33 +25,11 @@ class AppDrawer extends StatelessWidget {
               ),
             ),
           ),
-          ListTile(
-            leading: Icon(
-              Icons.label,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            title: Text(
-              'Etiquetas',
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            onTap: () {
-              Navigator.of(context).pushReplacementNamed(AppRoutes.HOME);
-            },
-          ),
+          DrawerItem(Icons.home, 'Início', AppRoutes.HOME),
           const Divider(),
-          ListTile(
-            leading: Icon(
-              Icons.create,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            title: Text(
-              'Gerenciar Etiquetas',
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            onTap: () {
-              Navigator.of(context).pushReplacementNamed(AppRoutes.LABEL_LIST);
-            },
-          ),
+          DrawerItem(Icons.label, 'Etiquetas', AppRoutes.LABEL_LIST),
+          const Divider(),
+          DrawerItem(Icons.text_fields, 'Cabeçalhos', ''),
         ],
       ),
     );
