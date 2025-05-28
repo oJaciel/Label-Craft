@@ -45,6 +45,9 @@ class LabelGrid extends StatelessWidget {
 
     if (loadedLabels.isNotEmpty) {
       return GridView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+
         itemCount: loadedLabels.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: calculateCrossAxisCount(),

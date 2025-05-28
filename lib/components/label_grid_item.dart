@@ -9,24 +9,22 @@ class LabelGridItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    showWeight() {
-      if (label.hasWeight == false) {
+    String showWeight() {
+      if (!label.hasWeight) {
         return '';
-      } else if (label.hasWeight == true &&
-          (label.weight == '' || label.weight == null)) {
+      } else if (label.weight == '' || label.weight == null) {
         return 'Peso:______';
-      } else if (label.hasWeight == true && (label.weight != null)) {
+      } else {
         return 'Peso: ${label.weight}';
       }
     }
 
-    showPrice() {
-      if (label.hasPrice == false) {
+    String showPrice() {
+      if (!label.hasPrice) {
         return '';
-      } else if (label.hasPrice == true &&
-          (label.price == '' || label.price == null)) {
+      } else if (label.price == '' || label.price == null) {
         return 'Preço: R\$ ______';
-      } else if (label.hasPrice == true && (label.price != null)) {
+      } else {
         return 'Preço: R\$ ${label.price}';
       }
     }
@@ -45,24 +43,27 @@ class LabelGridItem extends StatelessWidget {
         ),
         padding: const EdgeInsets.all(8),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, // alinha à esquerda
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               label.name,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
             ),
             const SizedBox(height: 8),
-            if (label.hasWeight) Text(showWeight()!),
-            if (label.hasPrice) Text(showPrice()!),
+            if (label.hasWeight) Text(showWeight()),
+            if (label.hasPrice) Text(showPrice()),
             if (label.hasFab)
               const Text(
                 'Data de fabricação: ____/____/_____',
-                style: TextStyle(fontSize: 13),
+                style: TextStyle(fontSize: 11),
               ),
             if (label.hasExpDate)
               const Text(
                 'Validade: 02 meses (sob congelamento)',
-                style: TextStyle(fontSize: 13),
+                style: TextStyle(fontSize: 11),
               ),
           ],
         ),

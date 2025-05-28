@@ -14,8 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-   @override
+  @override
   void initState() {
     super.initState();
     try {
@@ -24,7 +23,6 @@ class _HomePageState extends State<HomePage> {
       print(e);
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +33,64 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            AppButton('Gerenciar Etiquetas', AppRoutes.LABEL_LIST, Icon(Icons.create)),
+            Text(
+              'O que vamos fazer hoje?',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 10),
-            Expanded(child: LabelGrid()),
+            AppButton(
+              'Criar nova etiqueta',
+              AppRoutes.LABEL_FORM,
+              Icon(Icons.add),
+            ),
+            SizedBox(height: 5),
+            Row(
+              children: [
+                Expanded(
+                  child: AppButton(
+                    'Gerenciar Etiquetas',
+                    AppRoutes.LABEL_LIST,
+                    Icon(Icons.label),
+                  ),
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: AppButton(
+                    'Gerenciar Cabeçalhos',
+                    '',
+                    Icon(Icons.text_fields),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 10),
+            Card(
+              elevation: 2,
+              margin: EdgeInsets.only(top: 10),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ListTile(
+                      leading: Icon(Icons.label_outline),
+                      title: Text(
+                        'Suas Etiquetas',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      subtitle: Text(
+                        'Clique em uma etiqueta para imprimi-lá',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    LabelGrid(),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
