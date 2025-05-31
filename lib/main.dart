@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:label_craft/models/header_provider.dart';
 import 'package:label_craft/models/label_provider.dart';
 import 'package:label_craft/pages/header_page.dart';
 import 'package:label_craft/pages/home_page.dart';
@@ -24,7 +25,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => LabelProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => LabelProvider()),
+        ChangeNotifierProvider(create: (_) => HeaderProvider()),
+      ],
       child: MaterialApp(
         title: 'Label Craft',
         debugShowCheckedModeBanner: false,
