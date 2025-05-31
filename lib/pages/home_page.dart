@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
                 Expanded(
                   child: AppButton(
                     'Gerenciar Etiquetas',
-                    AppRoutes.LABEL_LIST,
+                    AppRoutes.LABEL_PAGE,
                     Icon(Icons.label),
                   ),
                 ),
@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
                 Expanded(
                   child: AppButton(
                     'Gerenciar Cabeçalhos',
-                    '',
+                    AppRoutes.HEADER_PAGE,
                     Icon(Icons.text_fields),
                   ),
                 ),
