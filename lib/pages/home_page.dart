@@ -31,69 +31,70 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       drawer: AppDrawer(),
       appBar: AppBar(title: Text('Label Craft')),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Text(
-              'O que vamos fazer hoje?',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            AppButton(
-              'Criar nova etiqueta',
-              AppRoutes.LABEL_FORM,
-              Icon(Icons.add),
-            ),
-            SizedBox(height: 5),
-            Row(
-              children: [
-                Expanded(
-                  child: AppButton(
-                    'Gerenciar Etiquetas',
-                    AppRoutes.LABEL_PAGE,
-                    Icon(Icons.label),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Text(
+                'O que vamos fazer hoje?',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              AppButton(
+                'Criar nova etiqueta',
+                AppRoutes.LABEL_FORM,
+                Icon(Icons.add),
+              ),
+              SizedBox(height: 5),
+              Row(
+                children: [
+                  Expanded(
+                    child: AppButton(
+                      'Gerenciar Etiquetas',
+                      AppRoutes.LABEL_PAGE,
+                      Icon(Icons.label),
+                    ),
                   ),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: AppButton(
-                    'Gerenciar Cabeçalhos',
-                    AppRoutes.HEADER_PAGE,
-                    Icon(Icons.text_fields),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: AppButton(
+                      'Gerenciar Cabeçalhos',
+                      AppRoutes.HEADER_PAGE,
+                      Icon(Icons.text_fields),
+                    ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Card(
-              elevation: 2,
-              margin: EdgeInsets.only(top: 10),
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ListTile(
-                      leading: Icon(Icons.label_outline),
-                      title: Text(
-                        'Suas Etiquetas',
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      subtitle: Text(
-                        'Clique em uma etiqueta para imprimi-lá',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Colors.grey[600],
+                ],
+              ),
+              SizedBox(height: 10),
+              Card(
+                elevation: 2,
+                margin: EdgeInsets.only(top: 10),
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ListTile(
+                        leading: Icon(Icons.label_outline),
+                        title: Text(
+                          'Suas Etiquetas',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        subtitle: Text(
+                          'Clique em uma etiqueta para imprimi-lá',
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: Colors.grey[600]),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 5),
-                    LabelGrid(),
-                  ],
+                      SizedBox(height: 5),
+                      LabelGrid(),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
