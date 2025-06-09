@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:label_craft/components/app_button.dart';
 import 'package:label_craft/components/app_drawer.dart';
 import 'package:label_craft/components/label_grid.dart';
+import 'package:label_craft/models/header_provider.dart';
 import 'package:label_craft/models/label_provider.dart';
 import 'package:label_craft/utils/app_routes.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +20,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     try {
       Provider.of<LabelProvider>(context, listen: false).loadLabels();
+      Provider.of<HeaderProvider>(context, listen: false).loadHeaders();
     } catch (e) {
       print(e);
     }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:label_craft/components/app_button.dart';
 import 'package:label_craft/components/app_drawer.dart';
 import 'package:label_craft/components/empty_list_message.dart';
+import 'package:label_craft/components/header_page_item.dart';
 import 'package:label_craft/models/header_provider.dart';
 import 'package:label_craft/utils/app_routes.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +36,7 @@ class HeaderPage extends StatelessWidget {
                   child: ListView.builder(
                     itemCount: headers.length,
                     itemBuilder: (ctx, i) {
-                      return Column(children: [Text(''), const Divider()]);
+                      return Column(children: [HeaderPageItem(headers[i]), const Divider()]);
                     },
                   ),
                 )
