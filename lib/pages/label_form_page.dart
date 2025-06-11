@@ -130,7 +130,7 @@ class _LabelFormPageState extends State<LabelFormPage> {
 
             const SizedBox(height: 10),
 
-            LabelPreview(labelPreview),
+            LabelPreview(labelPreview, header: _selectedHeader,),
 
             const SizedBox(height: 20),
 
