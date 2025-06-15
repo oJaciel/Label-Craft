@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class AppButton extends StatelessWidget {
-  const AppButton(this.text, this.route, this.icon, {super.key});
+  const AppButton(this.text, this.icon, {super.key, this.route = '', this.function});
 
   final String text;
-  final String route;
+  final String? route;
+  final VoidCallback? function;
   final Icon icon;
 
   @override
@@ -19,7 +20,16 @@ class AppButton extends StatelessWidget {
           iconColor: Colors.white
         ),
         onPressed: () {
-          Navigator.of(context).pushNamed(route);
+          if (function != null) {
+            function!();
+          } else if (route != null && route!.isNotEmpty) {
+            Navigator.of(context).pushNamed(route!);
+          } else {
+            // Nenhuma ação definida
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Nenhuma ação configurada')),
+            );
+          }
         },
         label: Text(text),
         icon: icon,

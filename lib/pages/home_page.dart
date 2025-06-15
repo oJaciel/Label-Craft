@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 10),
               AppButton(
                 'Criar nova etiqueta',
-                AppRoutes.LABEL_FORM,
+                route: AppRoutes.LABEL_FORM,
                 Icon(Icons.add),
               ),
               SizedBox(height: 5),
@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
                   Expanded(
                     child: AppButton(
                       'Gerenciar Etiquetas',
-                      AppRoutes.LABEL_PAGE,
+                      route: AppRoutes.LABEL_PAGE,
                       Icon(Icons.label),
                     ),
                   ),
@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                   Expanded(
                     child: AppButton(
                       'Gerenciar Cabeçalhos',
-                      AppRoutes.HEADER_PAGE,
+                      route: AppRoutes.HEADER_PAGE,
                       Icon(Icons.text_fields),
                     ),
                   ),

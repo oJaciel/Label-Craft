@@ -27,7 +27,7 @@ class HeaderPage extends StatelessWidget {
           children: [
             AppButton(
               'Adicionar Novo Cabeçalho',
-              AppRoutes.HEADER_FORM,
+              route: AppRoutes.HEADER_FORM,
               const Icon(Icons.add),
             ),
             const SizedBox(height: 10),

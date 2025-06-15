@@ -27,7 +27,7 @@ class LabelsPage extends StatelessWidget {
           children: [
             AppButton(
               'Adicionar Nova Etiqueta',
-              AppRoutes.LABEL_FORM,
+              route: AppRoutes.LABEL_FORM,
               const Icon(Icons.add),
             ),
             const SizedBox(height: 10),

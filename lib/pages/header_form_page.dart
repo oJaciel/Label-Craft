@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:label_craft/components/app_button.dart';
 import 'package:label_craft/components/header_preview.dart';
 import 'package:label_craft/models/header_provider.dart';
 import 'package:label_craft/models/label_header.dart';
@@ -164,24 +165,7 @@ class _LabelFormPageState extends State<HeaderFormPage> {
 
                   SizedBox(height: 20),
 
-                  Container(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.secondary,
-                        foregroundColor:
-                            Theme.of(context).colorScheme.onSecondary,
-                        iconColor: Colors.white,
-                      ),
-                      onPressed: () {
-                        _submitForm();
-                      },
-                      label: Text('Salvar Cabeçalho'),
-                      icon: Icon(Icons.save),
-                    ),
-                  ),
+                  AppButton('Salvar Cabeçalho', Icon(Icons.save), function: _submitForm,)
                 ],
               ),
             ),
