@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
+import 'package:label_craft/components/app_button.dart';
 import 'package:label_craft/components/header_select_dropdown.dart';
 import 'package:label_craft/components/label_preview.dart';
 import 'package:label_craft/models/header_provider.dart';
@@ -68,11 +69,6 @@ class _LabelFormPageState extends State<LabelFormPage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    final headers = Provider.of<HeaderProvider>(context).headers;
-    if (_selectedHeader == null && headers.isNotEmpty) {
-      _selectedHeader = headers.first;
-    }
-
     if (_formData.isEmpty) {
       final argument = ModalRoute.of(context)?.settings.arguments;
       if (argument != null && argument is Label) {
@@ -119,21 +115,6 @@ class _LabelFormPageState extends State<LabelFormPage> {
         padding: const EdgeInsets.all(12),
         child: Column(
           children: [
-            // Dropdown de modelo
-            HeaderSelectDropdown(
-              headers: headerList,
-              selectedHeader: _selectedHeader!,
-              onChanged: (value) {
-                setState(() => _selectedHeader = value!);
-              },
-            ),
-
-            const SizedBox(height: 10),
-
-            LabelPreview(labelPreview, header: _selectedHeader,),
-
-            const SizedBox(height: 20),
-
             // Formulário
             Form(
               key: _formKey,
@@ -151,6 +132,23 @@ class _LabelFormPageState extends State<LabelFormPage> {
                         return 'O nome é obrigatório';
                       }
                       return null;
+                    },
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  _selectedHeader != null
+                      ? LabelPreview(labelPreview, header: _selectedHeader!)
+                      : LabelPreview(labelPreview),
+
+                  const SizedBox(height: 20),
+
+                  // Dropdown de modelo
+                  HeaderSelectDropdown(
+                    headers: headerList,
+                    selectedHeader: _selectedHeader,
+                    onChanged: (value) {
+                      setState(() => _selectedHeader = value!);
                     },
                   ),
 
@@ -207,21 +205,7 @@ class _LabelFormPageState extends State<LabelFormPage> {
 
                   const SizedBox(height: 20),
 
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.secondary,
-                        foregroundColor:
-                            Theme.of(context).colorScheme.onSecondary,
-                      ),
-                      onPressed: _submitForm,
-                      icon: const Icon(Icons.save),
-                      label: const Text('Salvar Etiqueta'),
-                    ),
-                  ),
+                  AppButton('Salvar Etiqueta', Icon(Icons.save), function: _submitForm,)
                 ],
               ),
             ),

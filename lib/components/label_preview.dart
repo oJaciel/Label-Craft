@@ -11,7 +11,7 @@ class LabelPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget showHeaderImage() {
+    Widget showHeader() {
       if (header?.image == null || header?.image == '') {
         return Text(
           header?.displayName ?? '',
@@ -59,7 +59,7 @@ class LabelPreview extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                showHeaderImage(),
+                header?.displayName != null ? showHeader() : SizedBox(),
                 Text(
                   header?.aditionalInfo ?? '',
                   style: TextStyle(fontSize: 12),
