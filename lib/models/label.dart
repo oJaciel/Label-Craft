@@ -7,6 +7,7 @@ class Label {
   final String? price;
   final bool hasFab;
   final bool hasExpDate;
+  final String? headerId;
 
   Label({
     required this.id,
@@ -17,5 +18,6 @@ class Label {
     this.price,
     required this.hasFab,
     required this.hasExpDate,
+    this.headerId,
   });
 }

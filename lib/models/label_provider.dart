@@ -29,6 +29,7 @@ class LabelProvider with ChangeNotifier {
           price: labelData['price'] ?? '',
           hasFab: labelData['hasFab'] ?? false,
           hasExpDate: labelData['hasExpDate'] ?? false,
+          headerId: labelData['headerId'],
         ),
       );
     });
@@ -49,6 +50,7 @@ class LabelProvider with ChangeNotifier {
       price: data['price'] as String,
       hasFab: data['hasFab'] as bool,
       hasExpDate: data['hasExpDate'] as bool,
+      headerId: data['headerId'] as String?,
     );
 
     if (hasId == true) {
@@ -70,6 +72,7 @@ class LabelProvider with ChangeNotifier {
         "price": label.price,
         "hasFab": label.hasFab,
         "hasExpDate": label.hasExpDate,
+        "headerId": label.headerId,
       }),
     );
 
@@ -85,6 +88,7 @@ class LabelProvider with ChangeNotifier {
         price: label.price,
         hasFab: label.hasFab,
         hasExpDate: label.hasExpDate,
+        headerId: label.headerId,
       ),
     );
     notifyListeners();
@@ -105,6 +109,7 @@ class LabelProvider with ChangeNotifier {
           "price": label.price,
           "hasFab": label.hasFab,
           "hasExpDate": label.hasExpDate,
+          "headerId": label.headerId,
         }),
       );
       _labels[index] = label;

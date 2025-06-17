@@ -39,6 +39,7 @@ class _LabelFormPageState extends State<LabelFormPage> {
     _formData['hasPrice'] = _hasPrice;
     _formData['hasFab'] = _hasFab;
     _formData['hasExpDate'] = _hasExpDate;
+    _formData['headerId'] = _selectedHeader?.id ?? '';
 
     try {
       await Provider.of<LabelProvider>(
@@ -80,11 +81,21 @@ class _LabelFormPageState extends State<LabelFormPage> {
         _formData['price'] = argument.price!;
         _formData['hasFab'] = argument.hasFab;
         _formData['hasExpDate'] = argument.hasExpDate;
+        _formData['headerId'] = argument.headerId ?? '';
 
         _hasWeight = argument.hasWeight;
         _hasPrice = argument.hasPrice;
         _hasFab = argument.hasFab;
         _hasExpDate = argument.hasExpDate;
+
+        final headerList =
+            Provider.of<HeaderProvider>(context, listen: false).headers;
+        _selectedHeader = headerList.firstWhere(
+          (header) => header.id == argument.headerId,
+        );
+        if (_selectedHeader!.id.isEmpty) {
+          _selectedHeader = null;
+        }
       }
     }
   }
@@ -102,6 +113,7 @@ class _LabelFormPageState extends State<LabelFormPage> {
       price: _formData['price']?.toString() ?? '',
       hasFab: _hasFab,
       hasExpDate: _hasExpDate,
+      headerId: _selectedHeader?.id,
     );
 
     return Scaffold(
@@ -205,7 +217,11 @@ class _LabelFormPageState extends State<LabelFormPage> {
 
                   const SizedBox(height: 20),
 
-                  AppButton('Salvar Etiqueta', Icon(Icons.save), function: _submitForm,)
+                  AppButton(
+                    'Salvar Etiqueta',
+                    Icon(Icons.save),
+                    function: _submitForm,
+                  ),
                 ],
               ),
             ),
