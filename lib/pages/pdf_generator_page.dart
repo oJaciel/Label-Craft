@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:label_craft/components/label_preview.dart';
 import 'package:label_craft/models/label.dart';
+import 'package:label_craft/models/label_provider.dart';
 import 'package:label_craft/models/pdf_provider.dart';
 import 'package:label_craft/theme/app_theme.dart';
+import 'package:provider/provider.dart';
 
 class PdfGeneratorPage extends StatefulWidget {
   const PdfGeneratorPage({super.key});
@@ -56,7 +58,7 @@ class _PdfGeneratorPageState extends State<PdfGeneratorPage> {
       builder: (_) => const Center(child: CircularProgressIndicator()),
     );
 
-    await PdfProvider.generateLabelPdf(label, quantity);
+    await PdfProvider.generateLabelPdf(label, Provider.of<LabelProvider>(context, listen: false).getHeaderFromId(label, context),quantity);
 
     Navigator.of(context).pop();
   }
@@ -92,7 +94,7 @@ class _PdfGeneratorPageState extends State<PdfGeneratorPage> {
                 ),
                 const SizedBox(height: 20),
 
-                Center(child: LabelPreview(label)),
+                Center(child: LabelPreview(label, header: Provider.of<LabelProvider>(context, listen: false).getHeaderFromId(label, context),)),
 
                 const SizedBox(height: 12),
 

@@ -1,14 +1,28 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/widgets.dart';
+import 'package:label_craft/models/header_provider.dart';
 import 'package:label_craft/models/label.dart';
 import 'package:http/http.dart' as http;
+import 'package:label_craft/models/label_header.dart';
 import 'package:label_craft/utils/constants.dart';
+import 'package:provider/provider.dart';
 
 class LabelProvider with ChangeNotifier {
   List<Label> _labels = [];
 
   List<Label> get labels => [..._labels];
+
+  LabelHeader? getHeaderFromId(Label label, BuildContext context) {
+    final headerList = Provider.of<HeaderProvider>(context, listen: false).headers;
+
+    if (label.headerId == null) return null;
+    try {
+      return headerList.firstWhere((header) => header.id == label.headerId);
+    } catch (_) {
+      return null;
+    }
+  }
 
   //Método para carregar as etiquetas do banco
   Future<void> loadLabels() async {

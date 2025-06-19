@@ -1,15 +1,32 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:label_craft/models/label_header.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/pdf.dart';
 import 'package:label_craft/models/label.dart';
 import 'package:printing/printing.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:http/http.dart' as http;
 
 class PdfProvider {
+  static Future<pw.ImageProvider> loadNetworkImage(String url) async {
+    if (url.isEmpty) {
+      throw Exception('URL da imagem vazia');
+    }
+
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode != 200) {
+      throw Exception('Erro ao baixar imagem: ${response.statusCode}');
+    }
+
+    final bytes = response.bodyBytes;
+
+    // Aqui você cria a imagem para o pdf
+    return pw.MemoryImage(bytes);
+  }
+
   static showWeight(Label label) {
     if (label.hasWeight == false) {
       return '';
@@ -32,18 +49,16 @@ class PdfProvider {
     }
   }
 
-  static Future<void> generateLabelPdf(Label label, int labelsQuantity) async {
+  static Future<void> generateLabelPdf(
+    Label label,
+    LabelHeader? header,
+    int labelsQuantity,
+  ) async {
     final year = DateTime.now().year;
 
     final pdf = pw.Document();
 
     final double? sizedBoxHeight = 2;
-
-    final ByteData imageData = await rootBundle.load(
-      'assets/images/label_logo.png',
-    );
-    final Uint8List imageBytes = imageData.buffer.asUint8List();
-    final image = pw.MemoryImage(imageBytes);
 
     pdf.addPage(
       pw.MultiPage(
@@ -67,19 +82,13 @@ class PdfProvider {
                       pw.Column(
                         mainAxisAlignment: pw.MainAxisAlignment.center,
                         children: [
-                          pw.Image(
-                            image,
-                            width: 92,
-                            height: 42,
-                            alignment: pw.Alignment.center,
-                          ),
                           pw.Text(
-                            'CNPJ: 08.601.406/0001-31',
-                            style: pw.TextStyle(fontSize: 9),
+                            header?.displayName ?? '',
+                            style: pw.TextStyle(fontSize: 12),
                             textAlign: pw.TextAlign.start,
                           ),
                           pw.Text(
-                            'Fone: (54) 9 9957-5514 / 9 9616-8921',
+                            header?.aditionalInfo ?? '',
                             style: pw.TextStyle(fontSize: 9),
                             textAlign: pw.TextAlign.start,
                           ),
