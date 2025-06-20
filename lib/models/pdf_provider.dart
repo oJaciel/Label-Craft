@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:label_craft/models/label_header.dart';
 import 'package:path_provider/path_provider.dart';
@@ -11,6 +10,34 @@ import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
 
 class PdfProvider {
+  static Future<pw.ImageProvider?> loadImageFromUrl(String? url) async {
+    if (url == null || url.isEmpty) return null;
+
+    try {
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        final bytes = response.bodyBytes;
+
+        // Verificação para tipos básicos suportados
+        if (bytes.length > 4 && (bytes[0] == 0x89 && bytes[1] == 0x50)) {
+          // PNG
+          return pw.MemoryImage(bytes);
+        } else if (bytes[0] == 0xFF && bytes[1] == 0xD8) {
+          // JPEG
+          return pw.MemoryImage(bytes);
+        } else {
+          throw Exception('Formato de imagem não suportado.');
+        }
+      } else {
+        throw Exception('Erro ao carregar imagem da URL');
+      }
+    } catch (e) {
+      print('Erro ao carregar imagem: $e');
+      return null;
+    }
+  }
+
   static Future<pw.ImageProvider> loadNetworkImage(String url) async {
     if (url.isEmpty) {
       throw Exception('URL da imagem vazia');
@@ -54,6 +81,7 @@ class PdfProvider {
     LabelHeader? header,
     int labelsQuantity,
   ) async {
+    final headerImage = await loadImageFromUrl(header?.image);
     final year = DateTime.now().year;
 
     final pdf = pw.Document();
@@ -78,15 +106,23 @@ class PdfProvider {
                   ),
                   child: pw.Column(
                     children: [
-                      //Coluna da imagem, CPF e Fone
                       pw.Column(
                         mainAxisAlignment: pw.MainAxisAlignment.center,
                         children: [
-                          pw.Text(
-                            header?.displayName ?? '',
-                            style: pw.TextStyle(fontSize: 12),
-                            textAlign: pw.TextAlign.start,
-                          ),
+                          headerImage != null
+                              ? pw.Column(
+                                children: [
+                                  pw.Image(headerImage, width: 92, height: 42),
+                                  pw.Text(
+                                    header?.displayName ?? '',
+                                    style: pw.TextStyle(fontSize: 12),
+                                  ),
+                                ],
+                              )
+                              : pw.Text(
+                                header?.displayName ?? '',
+                                style: pw.TextStyle(fontSize: 18),
+                              ),
                           pw.Text(
                             header?.aditionalInfo ?? '',
                             style: pw.TextStyle(fontSize: 9),
